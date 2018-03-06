@@ -1,0 +1,86 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}Accueil{% endblock %}
+{% block content %}
+  <header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>Du gras, oui, mais de qualité !</strong>
+            </h1>
+            <hr>
+          </div>
+          <div class="col-lg-8 mx-auto">
+            <h2 class="mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
+          </div>
+          <div class="col-lg-8 mx-auto">
+            <form class="text-center" action="{% url 'home:search' %}" method="get" accept-charset="utf-8">
+              <div class="input-group">
+                <input id="searchbar" name="query" type="text" class="form-control input-xxl" placeholder="Produit">
+                <span class="input-group-btn">
+                  <button class="btn btn-primary btn-xl" href="{% url 'home:search' %}">Chercher</button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="bg-primary text-white" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h2 class="section-heading">Colette et Remy</h2>
+            <hr class="my-4">
+          </div>
+          <div class="col-lg-8 text-center mx-auto">
+            <div>
+              Pur Beurre est l'initiative de deux amoureux de la gastronomie française, Colette Tatou et Rémy, que vous avez déjà certainement rencontrés dans notre excellent restaurant Ratatouille. 
+            </div>
+          </div>          
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-12 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <img src="{% static 'home/img/colette.png' %}" class="img-fluid">
+              <h3 class="mb-3">Colette</h3>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <img src="{% static 'home/img/remy.png' %}" class="img-fluid">
+              <h3 class="mb-3">Remy</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading">Contactez-nous</h2>
+            <hr class="my-4">
+            <p class="mb-5">Une question ? Un problème ? Nous nous tenons à votre disposition !</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 ml-auto text-center">
+            <i class="fa fa-phone fa-3x mb-3 sr-contact"></i>
+            <p>123-456-6789</p>
+          </div>
+          <div class="col-lg-4 mr-auto text-center">
+            <i class="fa fa-envelope-o fa-3x mb-3 sr-contact"></i>
+            <p>
+              <a href="mailto:your-email@your-domain.com">feedback@PurBeurre.com</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}

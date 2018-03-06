@@ -1,0 +1,31 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Connexion</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+
+      <div class="modal-body">
+        <form action="" method="post">
+          {% csrf_token %}
+          <p id="login">
+            {% for field in request.login_form %}
+            {{ field.errors }}
+            {{ field.label_tag}}
+            {{ field }}
+            {% endfor %}
+          </p>
+            <input type="submit" class="btn btn-custom btn-md btn-block bg-primary text-white" name="login-modal" value="Se connecter" />
+        </form>
+        <div class="text-center">
+          <label>
+            <a href="{% url 'home:signup' %}">Créer un compte</a>
+          </label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
