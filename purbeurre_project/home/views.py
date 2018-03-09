@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .OFFData import OFFData
 from .models import Product
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.core.validators import validate_email
 
 # Create your views here.
 def index(request):
@@ -23,6 +24,7 @@ def search(request):
         'product': data.product,
         'products': products
     }
+
     return render(request, 'home/search.html', context)
 
 def favorites(request):
@@ -30,8 +32,16 @@ def favorites(request):
     return HttpResponse(template.render(request=request))
 
 def account(request):
-    template = loader.get_template('home/account.html')
-    return HttpResponse(template.render(request=request))
+    if request.user.is_authenticated:
+        if request.method == 'POST' and 'emailchange' in request.POST:
+            try:
+                validate_email(request.POST.get('email'))
+                request.user.email = request.POST.get('email')
+                request.user.save()
+            except Exception:
+                pass
+        return render(request, 'home/account.html')
+    return render(request, 'home/notlogged.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -54,3 +64,21 @@ def product(request, id):
         'nutriscore': ['A', 'B', 'C', 'D', 'E']
     }
     return render(request, 'home/product.html', context)
+
+def saveproduct(request, id):
+    if request.user.is_authenticated:
+        # Check if not already fav
+        try:
+            product = request.user.profile.favorites.get(id_off=id)
+        except Product.DoesNotExist:
+            try:
+                product = Product.objects.get(id_off=id)
+                request.user.profile.favorites.add(product)
+                return JsonResponse({'state':'success', 'action': 'added'}, status=200)
+            except Product.DoesNotExist:
+                return JsonResponse({'state':'error', 'action': 'added'}, status=400)
+
+        request.user.profile.favorites.remove(product)
+        return JsonResponse({'state':'success', 'action': 'removed'}, status=200)
+    else:
+        return JsonResponse({'state':'error', 'reason': 'User not logged in', 'action': 'null'}, status=400)

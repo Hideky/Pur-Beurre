@@ -22,69 +22,16 @@ class OFFData:
         response = requests.get(path)
         return response.json()
 
-# def update_categories():
-#     """Download all categorie then update the database"""
-#     categories = fetch("categories")
-#     cursor = db.cursor()
-#     cursor.execute('SET NAMES utf8;')
-#     cursor.execute('SET CHARACTER SET utf8;')
-#     cursor.execute('SET character_set_connection=utf8;')
-#     cursor.execute('TRUNCATE categories')
-
-#     # clear result from useless data
-#     cleared_categories = list()
-#     for element in categories['tags']:
-#         if element['products'] < 10:
-#             continue
-#         if element['name'][:3] in ['en:', 'ru:', 'de:', 'es:']:
-#             continue
-#         cleared_categories.append(element)
-#     for element in cleared_categories:
-#         cursor.execute("""INSERT INTO categories(id, name, products, url) VALUES (%s, %s, %s, %s)""", 
-#             (element['id'], element['name'], element['products'], element['url']))
-#     cursor.close()
-#     db.commit()
-
-# def get_categories():
-#     """Get all categorie in the database"""
-#     cursor = db.cursor(MySQLdb.cursors.DictCursor)
-#     cursor.execute('SET NAMES utf8;')
-#     cursor.execute('SET CHARACTER SET utf8;')
-#     cursor.execute('SET character_set_connection=utf8;')
-#     cursor.execute("SELECT categories_id, id, name, products, url FROM categories")
-#     result = cursor.fetchall()
-#     cursor.close()
-#     categories = list()
-#     for element in result:
-#         categories.append(Categorie(element['categories_id'], element['name'], element['products'], element['url']))
-#     return categories
-
-# def get_categorie_products(url, page_number):
-#     """Get data of all product of a categorie"""
-#     result = requests.get("{}/{}.json".format(url, page_number)).json()
-#     products = list()
-#     for element in result['products']:
-#         # Data cheking
-#         if not all(k in element for k in ("product_name","brands", "id", "nutrition_grade_fr", "url", "categories_prev_tags")):
-#             continue
-#         if not all(k in element['nutriments'] for k in ("fat_100g","saturated-fat_100g", "sugars_100g", "salt_100g")):
-#             continue
-#         products.append(Product(element['id'], element['product_name'], element['brands'], element['nutrition_grade_fr'],
-#             element['nutriments']['fat_100g'], element['nutriments']['saturated-fat_100g'], 
-#             element['nutriments']['sugars_100g'], element['nutriments']['salt_100g'],
-#             element['url'], element['categories_prev_tags'][-1] ))
-#     return products
-
     def get_product(self):
         """Get data of a product"""
         try:
-            query = Product.objects.get(name__contains=self.search)
+            query = Product.objects.filter(name__contains=self.search)
         except Product.DoesNotExist:
             query = None
 
         # If in DB
         if query:
-            self.product = query
+            self.product = query[0]
             return query
 
         tag_country          = 'tagtype_0=countries&tag_contains_0=contains&tag_0=France&'       # From France
@@ -177,17 +124,3 @@ class OFFData:
                 new_product = Product.objects.get(id_off=element['id'])
             products.append(new_product)
         return products
-
-# def save_product(product):
-#     """Save product in the database"""
-#     categories = fetch("categories")
-#     cursor = db.cursor()
-#     cursor.execute('SET NAMES utf8;')
-#     cursor.execute('SET CHARACTER SET utf8;')
-#     cursor.execute('SET character_set_connection=utf8;')
-
-#     cursor.execute("""INSERT INTO product VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", 
-#         (product.id, product.name, product.brands, product.nutrition_grade, product.fat, 
-#             product.saturated_fat, product.sugars, product.salt, product.url, product.categorie))
-#     cursor.close()
-#     db.commit()

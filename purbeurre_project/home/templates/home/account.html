@@ -1,36 +1,33 @@
 {% extends 'home/base.html' %}
 {% load static %}
-{% block title %}Resultat: {{query}}{% endblock %}
+{% block title %}Mon Compte{% endblock %}
 {% block content %}
-  <header id="banner" class="masthead text-center text-white d-flex h-25"  style="background-image:url('{{product.img_url}}')">
+  <header id="banner" class="masthead text-center text-white d-flex h-25">
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-10 mx-auto">
             <h1 class="text-uppercase">
-              <strong>{{query}}</strong>
+              <strong>{{user.username}}</strong>
             </h1>
           </div>
         </div>
       </div>
     </header>
 
-    <section id="result" >
+    <section>
       <div class="container">
-        <div class="row">
-          <div class="col-lg-12 text-center">
-            <h2 class="section-heading">Vous pouvez remplacez cet aliment par:</h2>
-            <hr class="my-4">
+        <div class="row justify-content-center">
+          <div class="text-center form-wrap">
+            <p>Afin d'être avertie de la sortie de notre site dans sa version 2, nous vous proposons d'enregistrer votre adresse email.</p>
+            <form action="" method="post">
+              {% csrf_token %}
+              <p>
+                <input type="field" name="email" placeholder="username@domain.com" value="{{request.user.email}}">
+              </p>
+              <input type="submit" class="col col-2 align-self-center btn btn-custom btn-md bg-primary text-white" name="emailchange" value="Enregistrer" />
+            </form>
           </div>
-          {% for product in products %}
-          <div class="card col-lg-4 col-md-12 p-2">
-            <img class="card-img-top" src={{product.img_url}} alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">{{product.name}}</h5>
-              <p class="card-text">{{product.brands}}</p>
-              <a href="#" class="btn btn-primary">Enregistrer</a>
-            </div>
-          </div>
-          {% endfor %}
+
         </div>
       </div>
     </section>

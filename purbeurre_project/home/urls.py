@@ -24,13 +24,15 @@ app_name='home'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
     path('search/', views.search, name='search'),
     path('account/', views.account, name='account'),
     path('favorites/', views.favorites, name='favorites'),
     path('product/<int:id>', views.product, name='product'),
     path('signup/', views.signup, name='signup'),
     path('login/', auth_views.login, name='login'),
-    path('logout/', auth_views.logout, {'next_page': '/'}, name='logout')
+    path('logout/', auth_views.logout, name='logout'),
+    path('saveproduct/<int:id>', views.saveproduct, name='saveproduct')
 ]
 
 if settings.DEBUG:

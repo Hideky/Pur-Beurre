@@ -27,7 +27,7 @@
                     {{ field.label_tag }}<br>
                     {{ field }}
                     {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
+                    <div class="alert alert-warning">{{ error }}</div>
                     {% endfor %}
                   </p>
                   {% endfor %}
