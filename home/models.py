@@ -6,7 +6,7 @@ from django.dispatch import receiver
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    id_off = models.IntegerField()
+    id_off = models.BigIntegerField()
     brands = models.CharField(max_length=200)
     nutrition_grade = models.CharField(max_length=1)
     satured_fat = models.FloatField()
