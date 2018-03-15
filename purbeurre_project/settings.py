@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '1y1450@!@dnzw4#jgk%c9hoi26g77++i-nh=k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
+    DEBUG = True
 else:
     DEBUG = True
 
@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
+        'NAME': 'pur-beurre', # le nom de notre base de données créée précédemment
         'USER': 'hideki', # attention : remplacez par votre nom d'utilisateur !!
         'PASSWORD': '',
         'HOST': '',
