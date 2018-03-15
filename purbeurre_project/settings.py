@@ -89,6 +89,16 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 #     }
 # }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
+        'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
+        'USER': 'hideki', # attention : remplacez par votre nom d'utilisateur !!
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '5432',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
