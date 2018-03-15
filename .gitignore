@@ -97,3 +97,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# relative to this project
+purbeurre_project/__pycache__
+home/__pycache__/
+home/migrations/__pycache__/
