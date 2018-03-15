@@ -1,6 +1,6 @@
 // Bootstrap overrides for this template
 .text-primary {
-  color: $primary !important;
+  color: $biscuit !important;
 }
 
 .btn {
@@ -16,13 +16,13 @@
 }
 
 .btn-primary {
-  background-color: $primary;
-  border-color: $primary;
+  background-color: $rooibos;
+  border-color: $rooibos;
   &:hover,
   &:focus,
   &:active {
     color: $white;
-    background-color: darken($primary, 5%) !important;
+    background-color: darken($rooibos, 5%) !important;
   }
   &:active,
   &:focus {

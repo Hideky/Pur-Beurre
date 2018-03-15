@@ -17,9 +17,21 @@ class Product(models.Model):
     img_url = models.URLField()
     url = models.URLField()
 
+    def __str__(self):
+     return self.name
+
+    class Meta:
+        verbose_name = "produit"
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorites = models.ManyToManyField(Product, related_name='favorited', blank=True)
+
+    def __str__(self):
+     return self.user.username
+
+    class Meta:
+        verbose_name = "profile"
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

@@ -6,13 +6,13 @@ html {
 }
 
 body {
-  @include serif-font;
+  @include sans-serif-font;
 }
 
 hr {
   max-width: 50px;
   border-width: 3px;
-  border-color: $primary;
+  border-color: $rigolo;
 }
 
 hr.light {
@@ -20,10 +20,10 @@ hr.light {
 }
 
 a {
-  color: $primary;
+  color: $caramel;
   @include transition-all;
   &:hover {
-    color: darken($primary, .1);
+    color: darken($caramel, .1);
   }
 }
 
@@ -33,11 +33,11 @@ h3,
 h4,
 h5,
 h6 {
-  @include sans-serif-font;
+  @include title-font;
 }
 
 .bg-primary {
-  background-color: $primary !important;
+  background-color: $rooibos !important;
 }
 
 .bg-dark {
@@ -49,7 +49,7 @@ h6 {
 }
 
 section {
-  padding: 8rem 0;
+  padding: 6rem 0;
 }
 
 .section-heading {
@@ -76,4 +76,53 @@ img::selection {
 img::-moz-selection {
   color: $white;
   background: transparent;
+}
+
+#banner {
+  min-height: 170px;
+}
+
+.selected{
+  color: $moules;
+  font-size: 24px;
+}
+
+.nutriscore {
+  background: $moules;
+    border: black 2px;
+    text-align: center;
+    font-size: 35px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 51;
+}
+
+.modal-dialog {
+    width: 300px;
+}
+.modal-footer {
+    height: 70px;
+    margin: 0;
+}
+
+.modal-footer .btn {
+    font-weight: bold;
+}
+.modal-footer .progress {
+    display: none;
+    height: 32px;
+    margin: 0;
+}
+
+.minh-75 {
+  min-height: 75% !important;
+}
+
+.page-footer{
+    bottom: 0;
+    width: 100%;
 }

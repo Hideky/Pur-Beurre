@@ -10,9 +10,20 @@
   -o-background-size: cover;
   background-size: cover;
 }
-@mixin serif-font() {
-  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+@mixin title-font() {
+  font-family: 'Open Sans', Arial, sans-serif;
 }
 @mixin sans-serif-font() {
-  font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Scope One', Arial, sans-serif;
+}
+
+@mixin mask($img) {
+  -webkit-mask: url($img) no-repeat 50% 50%;
+     -moz-mask: url($img) no-repeat 50% 50%;
+      -ms-mask: url($img) no-repeat 50% 50%;
+          mask-image: url($img) no-repeat 50% 50%;
+  -webkit-mask-size: cover;
+     -moz-mask-size: cover;
+      -ms-mask-size: cover;
+          mask-size: cover;
 }

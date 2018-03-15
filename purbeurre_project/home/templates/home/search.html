@@ -14,7 +14,7 @@
       </div>
     </header>
 
-    <section id="result" >
+    <section id="result" class="minh-75">
       <div class="container">
         <div id="listing" class="row">
           <div class="col-lg-12 text-center">
@@ -22,17 +22,17 @@
             <hr class="my-4">
           </div>
           {% for product in products %}
-          <div class="card col-lg-4 col-md-12 p-2">
-            <img class="card-img-top" src={{product.img_url}} alt="Card image cap">
-            <div class="card-body">
-              <p class="nutriscore">{{product.nutrition_grade.upper}}</p>
+          <div class="card col-lg-4 col-md-12 pl-3 pr-3 pt-3 mb-3">
+            <img class="card-img-top mh-100" src={{product.img_url}} alt="Card image cap">
+            <div class="card-body text-center">
+              <p class="nutriscore text-white">{{product.nutrition_grade.upper}}</p>
               <h5 class="card-title"><a href="{% url 'home:product' id=product.id_off %}">{{product.name}}</a></h5>
               <p class="card-text">{{product.brands}}</p>
               {% if user.is_authenticated %}
                 {% if product in user.profile.favorites.all %}
-                  <button type="button" name="{{product.id_off}}" class="btn btn-primary"><i class="fa fa-trash fa-lg"></i>  Supprimer</button>
+                  <button type="button" name="{{product.id_off}}" class="btn btn-primary mt-2"><i class="fa fa-trash fa-lg"></i>  Supprimer</button>
                 {% else %}
-                  <button type="button" name="{{product.id_off}}" class="btn btn-primary"><i class="fa fa-save fa-lg"></i>  Enregistrer</button>
+                  <button type="button" name="{{product.id_off}}" class="btn btn-primary mt-2"><i class="fa fa-save fa-lg"></i>  Enregistrer</button>
                 {% endif %}
               {% endif %}
             </div>

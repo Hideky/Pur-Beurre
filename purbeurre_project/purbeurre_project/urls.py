@@ -21,7 +21,7 @@ from home import views
 
 urlpatterns = [
     path('', include('home.urls')),
-    path('admin/', admin.site.urls),
+    path('pbadminoc/', admin.site.urls),
 ]
 
 if settings.DEBUG:

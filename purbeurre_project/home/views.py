@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .OFFData import OFFData
@@ -15,21 +15,26 @@ def index(request):
 def search(request):
     query = request.GET.get('query')
 
+    if not query:
+        return redirect('/')
+
     data = OFFData(query)
     if not data.get_product():
-        return None
+        return render(request, 'home/noresult.html', {'query': query})
+        
     products = data.get_substitutes()
     context = {
         'query': query,
         'product': data.product,
-        'products': products
+        'products': sorted(products, key=lambda product: product.nutrition_grade)
     }
 
     return render(request, 'home/search.html', context)
 
 def favorites(request):
-    template = loader.get_template('home/favorites.html')
-    return HttpResponse(template.render(request=request))
+    if request.user.is_authenticated:
+        return render(request, 'home/favorites.html')
+    return render(request, 'home/notlogged.html', status=401)
 
 def account(request):
     if request.user.is_authenticated:
@@ -41,7 +46,7 @@ def account(request):
             except Exception:
                 pass
         return render(request, 'home/account.html')
-    return render(request, 'home/notlogged.html')
+    return render(request, 'home/notlogged.html', status=401)
 
 def signup(request):
     if request.method == 'POST':
@@ -58,7 +63,7 @@ def signup(request):
     return render(request, 'home/signup.html', {'form': form})
 
 def product(request, id):
-    product = Product.objects.get(id_off=id)
+    product = get_object_or_404(Product, id_off=id)
     context = {
         'product': product,
         'nutriscore': ['A', 'B', 'C', 'D', 'E']

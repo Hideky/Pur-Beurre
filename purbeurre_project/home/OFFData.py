@@ -42,7 +42,7 @@ class OFFData:
         url = 'https://fr.openfoodfacts.org/cgi/search.pl?{}json=1&action=process'
         url = url.format(tag_country + tag_language + tag_purshase_country + tag_nutrition_grade + tag_state)
         result = self.fetch("cgi/search.pl?{}search_terms2={}&page_size=1&page=1&action=process&json=1".format(tag_country + tag_language + tag_purshase_country + tag_state, self.search))['products']
-       
+
         # If nothing found from OFF
         if not len(result):
             return None
@@ -56,7 +56,7 @@ class OFFData:
                             fat=result[0]['nutriments']['fat_100g'],
                           sugar=result[0]['nutriments']['sugars_100g'],
                            salt=result[0]['nutriments']['salt_100g'],
-                      categorie=result[0]['categories_prev_tags'][-1],
+                      categorie=max(result[0]['categories_prev_tags'], key=len), # element['categories_prev_tags'][-1] for old method
                         img_url=result[0]['image_front_url'],
                             url=result[0]['url']
                 )
@@ -68,7 +68,7 @@ class OFFData:
     def get_substitutes(self):
         """Get healthier products from a selected product"""
         query = Product.objects.filter(categorie=self.product.categorie)
-        if len(query) >= 5:
+        if len(query) >= 10:
             return query
 
         tag_country          = 'tagtype_0=countries&tag_contains_0=contains&tag_0=France&'       # From France
@@ -84,6 +84,8 @@ class OFFData:
             # Data checking
             if not all(k in element for k in ("product_name","brands", "id", "nutrition_grade_fr", "url", "categories_prev_tags")):
                 continue
+            if element['id'] == self.product.id_off:
+                continue
             if not all(k in element['nutriments'] for k in ("fat_100g","saturated-fat_100g", "sugars_100g", "salt_100g")):
                 continue
             if not element['nutriments']['fat_100g']:
@@ -95,7 +97,7 @@ class OFFData:
             if not element['nutriments']['salt_100g']:
                 continue
 
-            # Healthy cheking
+            # Healthy checking
             if float(element['nutriments']['fat_100g']) < float(self.product.fat):
                 healthy_test += 1
             if float(element['nutriments']['saturated-fat_100g']) < float(self.product.satured_fat):
@@ -116,7 +118,7 @@ class OFFData:
                                 fat=element['nutriments']['fat_100g'],
                               sugar=element['nutriments']['sugars_100g'],
                                salt=element['nutriments']['salt_100g'],
-                          categorie=element['categories_prev_tags'][-1],
+                          categorie=max(element['categories_prev_tags'], key=len), # element['categories_prev_tags'][-1] for old method
                             img_url=element['image_front_url'],
                                 url=element['url']
                     )
