@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.test import TestCase, RequestFactory
 from .models import Product
 from .views import account, saveproduct, signup, favorites
+from .OFFData import OFFData
 
 # Index page
 class IndexPageTestCage(TestCase):
@@ -108,3 +109,14 @@ class UserPagesTestCase(TestCase):
         request.user = AnonymousUser()
         response = favorites(request)
         self.assertEqual(response.status_code, 401)
+
+class OFFDataTestCase(TestCase):
+    def test_offdata_return_result(self):
+        offdata = OFFData('nutella')
+        offdata.get_product()
+        substitutes = offdata.get_substitutes()
+        self.assertEqual(len(substitutes) > 1, True)
+
+    def test_offdata_return_none(self):
+        offdata = OFFData('azertyuiopmlkjhgdswxcvbn')
+        self.assertEqual(offdata.get_product(), None)

@@ -89,16 +89,25 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-        'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
-        'USER': 'Hideki', # attention : remplacez par votre nom d'utilisateur !!
-        'PASSWORD': 'test123',
-        'HOST': '',
-        'PORT': '5432',
-    }
+if os.environ.get('ENV') == 'PRODUCTION':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
+            'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
+            'USER': 'Hideki', # attention : remplacez par votre nom d'utilisateur !!
+            'PASSWORD': 'test123',
+            'HOST': '',
+            'PORT': '5432',
+        }
 }
+else:
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

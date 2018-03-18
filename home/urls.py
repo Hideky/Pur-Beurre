@@ -29,6 +29,7 @@ urlpatterns = [
     path('favorites/', views.favorites, name='favorites'),
     path('product/<int:id>', views.product, name='product'),
     path('signup/', views.signup, name='signup'),
+    path('mentions/', views.mentions, name='mentions'),
     path('login/', auth_views.login, name='login'),
     path('logout/', auth_views.logout, name='logout'),
     path('saveproduct/<int:id>', views.saveproduct, name='saveproduct')

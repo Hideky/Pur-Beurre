@@ -23,39 +23,3 @@ $(document).ready(function(){
 		});
 	});
 });
-
-/*function search(){
-  if (!$('#searchbar').val())
-    return;
-  
-  // Save actual status to backup after search
-  searchButton = $('#searchbutton')
-
-  // Change button when searching
-  $('#searchbutton').html('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Je réfléchi...')
-  $('#searchbutton').prop('disabled', true);
-
-  
-  
-}
-
-// Function used to set a new google map (export from google map api doc)
-function initMap(coord) {
-        var uluru = {lat: coord.lat, lng: coord.lng};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 15,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-
-// Binding of Enter on search bar
-$('#searchbutton').bind( "click", search);
-$('#searchbar').bind('keydown', function (k) {
-    if (k.keyCode == 13) {
-        $('#searchbutton').click();
-    }
-});*/

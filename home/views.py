@@ -87,3 +87,6 @@ def saveproduct(request, id):
         return JsonResponse({'state':'success', 'action': 'removed'}, status=200)
     else:
         return JsonResponse({'state':'error', 'reason': 'User not logged in', 'action': 'null'}, status=400)
+
+def mentions(request):
+    return render(request, 'home/mentions.html')
