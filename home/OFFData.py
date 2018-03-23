@@ -47,6 +47,7 @@ class OFFData:
         if not len(result):
             return None
 
+        # If this product does not exist in DB, create it
         if not Product.objects.filter(id_off = result[0]['id']):
             product = Product.objects.create(id_off=result[0]['id'],
                            name=result[0]['product_name'],
@@ -78,7 +79,9 @@ class OFFData:
         tag_state            = 'tagtype_4=states&tag_contains_4=contains&tag_4=en%3Acomplete&'   # Product with every information completed
         url = "cgi/search.pl?tagtype_0=categories&tag_contains_0=contains&tag_0={}&{}page_size=250&page=1&action=process&json=1"
         result = self.fetch_m(url.format(self.product.categorie, tag_country + tag_language + tag_purshase_country + tag_state))
+        
         products = list()
+
         for element in result['products']:
             healthy_test = 0
             # Data checking
@@ -109,6 +112,7 @@ class OFFData:
             if healthy_test < 3:
                 continue
 
+            # If this product does not exist in DB, create it
             if not Product.objects.filter(id_off = element['id']):
                 new_product = Product.objects.create(id_off=element['id'],
                                name=element['product_name'],
@@ -118,7 +122,7 @@ class OFFData:
                                 fat=element['nutriments']['fat_100g'],
                               sugar=element['nutriments']['sugars_100g'],
                                salt=element['nutriments']['salt_100g'],
-                          categorie=max(element['categories_prev_tags'], key=len), # element['categories_prev_tags'][-1] for old method
+                          categorie=max(element['categories_prev_tags'], key=len),
                             img_url=element['image_front_url'],
                                 url=element['url']
                     )

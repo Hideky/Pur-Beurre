@@ -8,11 +8,12 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 
-# Create your views here.
 def index(request):
+    """Return Index View"""
     return render(request, 'home/index.html')
 
 def search(request):
+    """Return Search View"""
     query = request.GET.get('query')
 
     if not query:
@@ -32,11 +33,13 @@ def search(request):
     return render(request, 'home/search.html', context)
 
 def favorites(request):
+    """Return Favorites View"""
     if request.user.is_authenticated:
         return render(request, 'home/favorites.html')
     return render(request, 'home/notlogged.html', status=401)
 
 def account(request):
+    """Return Account View"""
     if request.user.is_authenticated:
         if request.method == 'POST' and 'emailchange' in request.POST:
             try:
@@ -49,6 +52,7 @@ def account(request):
     return render(request, 'home/notlogged.html', status=401)
 
 def signup(request):
+    """Return Signup View"""
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -63,6 +67,7 @@ def signup(request):
     return render(request, 'home/signup.html', {'form': form})
 
 def product(request, id):
+    """Return Product View"""
     product = get_object_or_404(Product, id_off=id)
     context = {
         'product': product,
@@ -71,6 +76,7 @@ def product(request, id):
     return render(request, 'home/product.html', context)
 
 def saveproduct(request, id):
+    """Save or remove a product from a User's profile"""
     if request.user.is_authenticated:
         # Check if not already fav
         try:
@@ -81,7 +87,7 @@ def saveproduct(request, id):
                 request.user.profile.favorites.add(product)
                 return JsonResponse({'state':'success', 'action': 'added'}, status=200)
             except Product.DoesNotExist:
-                return JsonResponse({'state':'error', 'action': 'added'}, status=400)
+                return JsonResponse({'state':'error', 'reason': 'Product does not exist', 'action': 'added'}, status=400)
 
         request.user.profile.favorites.remove(product)
         return JsonResponse({'state':'success', 'action': 'removed'}, status=200)
@@ -89,4 +95,5 @@ def saveproduct(request, id):
         return JsonResponse({'state':'error', 'reason': 'User not logged in', 'action': 'null'}, status=400)
 
 def mentions(request):
+    """Return Mentions View"""
     return render(request, 'home/mentions.html')

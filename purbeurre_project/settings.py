@@ -92,9 +92,9 @@ WSGI_APPLICATION = 'purbeurre_project.wsgi.application'
 if os.environ.get('ENV') == 'PRODUCTION':
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql', # on utilise l'adaptateur postgresql
-            'NAME': 'purbeurre', # le nom de notre base de données créée précédemment
-            'USER': 'Hideki', # attention : remplacez par votre nom d'utilisateur !!
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'purbeurre', 
+            'USER': 'Hideki',
             'PASSWORD': 'test123',
             'HOST': '',
             'PORT': '5432',
