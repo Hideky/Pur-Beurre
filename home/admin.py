@@ -5,6 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from .models import Product, Profile
 
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'brands', 'categorie', 'url')

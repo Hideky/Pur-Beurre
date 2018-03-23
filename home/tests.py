@@ -5,6 +5,7 @@ from .models import Product
 from .views import account, saveproduct, signup, favorites
 from .OFFData import OFFData
 
+
 class IndexPageTestCage(TestCase):
     """Test status code of Index Page"""
     def test_index_page_returns_200(self):
@@ -17,6 +18,7 @@ class SearchPageTestCase(TestCase):
     def test_search_page_returns_200(self):
         response = self.client.get(reverse('home:search'), {'query': 'randomproductprobablynotexistinoff'})
         self.assertEqual(response.status_code, 200)
+
 
 class ProductPageTestCase(TestCase):
     """Test status code of individual product page"""
@@ -31,8 +33,7 @@ class ProductPageTestCase(TestCase):
                        salt=0.4,
                   categorie="en:water",
                     img_url="https://static.openfoodfacts.org/images/products/327/408/000/5003/front_fr.220.400.jpg",
-                        url="https://fr.openfoodfacts.org/produit/3274080005003/eau-de-source-cristaline"
-            )
+                        url="https://fr.openfoodfacts.org/produit/3274080005003/eau-de-source-cristaline")
         self.product = Product.objects.get(id_off=3274080005003)
 
     def test_product_page_returns_200(self):
@@ -46,6 +47,7 @@ class ProductPageTestCase(TestCase):
         product_id = self.product.id_off + 1
         response = self.client.get(reverse('home:product', args=(product_id,)))
         self.assertEqual(response.status_code, 404)
+
 
 class UserPagesTestCase(TestCase):
     """Test status code of all page with authenticating is required"""
@@ -62,8 +64,7 @@ class UserPagesTestCase(TestCase):
                        salt=0.4,
                   categorie="en:water",
                     img_url="https://static.openfoodfacts.org/images/products/327/408/000/5003/front_fr.220.400.jpg",
-                        url="https://fr.openfoodfacts.org/produit/3274080005003/eau-de-source-cristaline"
-            )
+                        url="https://fr.openfoodfacts.org/produit/3274080005003/eau-de-source-cristaline")
         self.product = Product.objects.get(id_off=3274080005003)
 
     def test_account_page_returns_200(self):
@@ -88,7 +89,7 @@ class UserPagesTestCase(TestCase):
         request.user = self.user
         response = saveproduct(request, id=self.product.id_off)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual( len(self.user.profile.favorites.all()), 1)
+        self.assertEqual(len(self.user.profile.favorites.all()), 1)
 
     def test_saveproduct_page_return_400(self):
         """Test status code of the save product API as anonymous user"""
@@ -110,6 +111,7 @@ class UserPagesTestCase(TestCase):
         request.user = AnonymousUser()
         response = favorites(request)
         self.assertEqual(response.status_code, 401)
+
 
 class OFFDataTestCase(TestCase):
     """Test data return by OFFData in different case"""

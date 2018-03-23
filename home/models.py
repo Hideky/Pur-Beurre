@@ -19,10 +19,11 @@ class Product(models.Model):
     url = models.URLField()
 
     def __str__(self):
-     return self.name
+        return self.name
 
     class Meta:
         verbose_name = "produit"
+
 
 class Profile(models.Model):
     """Proile model extending the default User model"""
@@ -30,16 +31,18 @@ class Profile(models.Model):
     favorites = models.ManyToManyField(Product, related_name='favorited', blank=True)
 
     def __str__(self):
-     return self.user.username
+        return self.user.username
 
     class Meta:
         verbose_name = "profile"
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     """Create a Profile model when a User model was created"""
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

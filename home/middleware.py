@@ -2,6 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 
+
 class LoginFormMiddleware(MiddlewareMixin):
     """Middleware to load login form on every page"""
 

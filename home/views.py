@@ -8,9 +8,11 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
 
+
 def index(request):
     """Return Index View"""
     return render(request, 'home/index.html')
+
 
 def search(request):
     """Return Search View"""
@@ -22,7 +24,7 @@ def search(request):
     data = OFFData(query)
     if not data.get_product():
         return render(request, 'home/noresult.html', {'query': query})
-        
+
     products = data.get_substitutes()
     context = {
         'query': query,
@@ -32,11 +34,13 @@ def search(request):
 
     return render(request, 'home/search.html', context)
 
+
 def favorites(request):
     """Return Favorites View"""
     if request.user.is_authenticated:
         return render(request, 'home/favorites.html')
     return render(request, 'home/notlogged.html', status=401)
+
 
 def account(request):
     """Return Account View"""
@@ -50,6 +54,7 @@ def account(request):
                 pass
         return render(request, 'home/account.html')
     return render(request, 'home/notlogged.html', status=401)
+
 
 def signup(request):
     """Return Signup View"""
@@ -66,6 +71,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'home/signup.html', {'form': form})
 
+
 def product(request, id):
     """Return Product View"""
     product = get_object_or_404(Product, id_off=id)
@@ -74,6 +80,7 @@ def product(request, id):
         'nutriscore': ['A', 'B', 'C', 'D', 'E']
     }
     return render(request, 'home/product.html', context)
+
 
 def saveproduct(request, id):
     """Save or remove a product from a User's profile"""
@@ -85,14 +92,15 @@ def saveproduct(request, id):
             try:
                 product = Product.objects.get(id_off=id)
                 request.user.profile.favorites.add(product)
-                return JsonResponse({'state':'success', 'action': 'added'}, status=200)
+                return JsonResponse({'state': 'success', 'action': 'added'}, status=200)
             except Product.DoesNotExist:
-                return JsonResponse({'state':'error', 'reason': 'Product does not exist', 'action': 'added'}, status=400)
+                return JsonResponse({'state': 'error', 'reason': 'Product does not exist', 'action': 'added'}, status=400)
 
         request.user.profile.favorites.remove(product)
-        return JsonResponse({'state':'success', 'action': 'removed'}, status=200)
+        return JsonResponse({'state': 'success', 'action': 'removed'}, status=200)
     else:
-        return JsonResponse({'state':'error', 'reason': 'User not logged in', 'action': 'null'}, status=400)
+        return JsonResponse({'state': 'error', 'reason': 'User not logged in', 'action': 'null'}, status=400)
+
 
 def mentions(request):
     """Return Mentions View"""
