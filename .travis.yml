@@ -1,9 +1,14 @@
 language: python
 python:
-  - "3.6"
-# command to install dependencies
-install:
+  - '3.6'
+
+before_script:
   - pip install -r requirements.txt
-# command to run tests
+
+env: DJANGO_SETTINGS_MODULE="purbeurre_project.settings"
+
+services:
+  - postgresql
+
 script:
-  - pytest
+  - ./manage.py test
