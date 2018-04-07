@@ -7,7 +7,7 @@ before_script:
 
 branches:
   only:
-    - staging
+    - testing
 
 env: DJANGO_SETTINGS_MODULE=purbeurre_project.settings.travis
 
