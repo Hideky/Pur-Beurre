@@ -102,5 +102,5 @@ ENV/
 purbeurre_project/__pycache__
 home/__pycache__/
 home/migrations/__pycache__/
-purbeurre_project/settings/production.py
+purbeurre_project/settings/
 staticfiles/
