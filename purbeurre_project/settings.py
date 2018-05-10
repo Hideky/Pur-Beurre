@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['pur-beurre.herokuapp.com', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    "django_cron",
 	'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +57,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'home.middleware.LoginFormMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+CRON_CLASSES = [
+	"home.off_cron.OffCronJob",
 ]
 
 ROOT_URLCONF = 'purbeurre_project.urls'
