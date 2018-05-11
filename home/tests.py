@@ -44,7 +44,7 @@ class ProductPageTestCase(TestCase):
 
     def test_product_page_returns_404(self):
         """Test status code of product page with non-existing product"""
-        product_id = self.product.id_off + 1
+        product_id = self.product.id_off
         response = self.client.get(reverse('home:product', args=(product_id,)))
         self.assertEqual(response.status_code, 404)
 
