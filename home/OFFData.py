@@ -49,22 +49,29 @@ class OFFData:
         if not len(result):
             return None
 
+        for element in result:
+            healthy_test = 0
+            if not all(k in element for k in ("product_name", "brands", "id", "nutrition_grade_fr", "url", "categories_prev_tags")):
+                continue
+
+            product = element
+
         # If this product does not exist in DB, create it 
-        if not Product.objects.filter(id_off=result[0]['id']):
-            product = Product.objects.create(id_off=result[0]['id'],
-                           name=result[0]['product_name'],
-                         brands=result[0]['brands'],
-                nutrition_grade=result[0]['nutrition_grade_fr'],
-                    satured_fat=result[0]['nutriments']['saturated-fat_100g'],
-                            fat=result[0]['nutriments']['fat_100g'],
-                          sugar=result[0]['nutriments']['sugars_100g'],
-                           salt=result[0]['nutriments']['salt_100g'],
-                      categorie=max(result[0]['categories_prev_tags'], key=len),  # element['categories_prev_tags'][-1] for old method
-                        img_url=result[0]['image_front_url'],
-                            url=result[0]['url'])
+        if not Product.objects.filter(id_off=product['id']):
+            product = Product.objects.create(id_off=product['id'],
+                           name=product['product_name'],
+                         brands=product['brands'],
+                nutrition_grade=product['nutrition_grade_fr'],
+                    satured_fat=product['nutriments']['saturated-fat_100g'],
+                            fat=product['nutriments']['fat_100g'],
+                          sugar=product['nutriments']['sugars_100g'],
+                           salt=product['nutriments']['salt_100g'],
+                      categorie=max(product['categories_prev_tags'], key=len),  # element['categories_prev_tags'][-1] for old method
+                        img_url=product['image_front_url'],
+                            url=product['url'])
             self.product = product
         else:
-            self.product = Product.objects.get(id_off=result[0]['id'])
+            self.product = Product.objects.get(id_off=product['id'])
         return self.product
 
     def get_substitutes(self):
