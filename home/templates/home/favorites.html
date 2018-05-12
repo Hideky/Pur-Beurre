@@ -16,6 +16,13 @@
 
     <section id="result" class="minh-75">
       <div class="container">
+        {% if user.profile.favorites.all %}
+        <div class="row mb-4">
+          <a class="input-group-btn mx-auto" href="{% url 'home:favoritesjson' token=user.profile.api_token %}">
+            <button class="btn btn-primary btn-xl">Exporter en JSon</button>
+          </a>
+        </div>
+        {% endif %}
         <div id="listing" class="row">
           {% if not user.profile.favorites.all %}
           <div class="col-lg-12 text-center">

@@ -22,8 +22,8 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
     verbose_name_plural = 'Profile'
     fk_name = 'user'
-    fields = ('favorites_link',)
-    readonly_fields = ['favorites_link']
+    fields = ('api_token', 'favorites_link')
+    readonly_fields = ['api_token', 'favorites_link']
     def favorites_link(self, profile):
         path = "admin:home_product_change"
         links = ["<li><a href='{}'>{}</a></li>".format(reverse(path, args=(o.id,)), o.name) for o in profile.favorites.all()]

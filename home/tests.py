@@ -2,9 +2,9 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import AnonymousUser, User
 from django.test import TestCase, RequestFactory
 from .models import Product
-from .views import account, saveproduct, signup, favorites
+from .views import account, saveproduct, signup, favorites, favoritesjson
 from .OFFData import OFFData
-
+import json
 
 class IndexPageTestCage(TestCase):
     """Test status code of Index Page"""
@@ -111,6 +111,23 @@ class UserPagesTestCase(TestCase):
         response = favorites(request)
         self.assertEqual(response.status_code, 401)
 
+    def test_zfavoritesjson_page_return_200(self):
+        """Test status code and response content of favoritesjson page as anonymous user"""
+        # Adding a favorite to test content
+        self.user.profile.favorites.add(self.product)
+
+        request = self.factory.get(reverse('home:favoritesjson', kwargs={'token':self.user.profile.api_token}))
+        request.user = AnonymousUser()
+        response = favoritesjson(request, token=self.user.profile.api_token)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content)['favorites'][0]['id'], self.product.id_off)
+
+    def test_favoritesjson_page_return_400(self):
+        """Test status code of favoritesjson page with a none existing token"""
+        request = self.factory.get(reverse('home:favoritesjson', kwargs={'token':'notexistingtoken'}))
+        request.user = AnonymousUser()
+        response = favoritesjson(request, token='notexistingtoken')
+        self.assertEqual(response.status_code, 400)
 
 class OFFDataTestCase(TestCase):
     """Test data return by OFFData in different case"""

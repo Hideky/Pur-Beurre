@@ -27,6 +27,7 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('account/', views.account, name='account'),
     path('favorites/', views.favorites, name='favorites'),
+    path('favoritesjson/<str:token>', views.favoritesjson, name='favoritesjson'),
     path('product/<int:id>', views.product, name='product'),
     path('signup/', views.signup, name='signup'),
     path('mentions/', views.mentions, name='mentions'),

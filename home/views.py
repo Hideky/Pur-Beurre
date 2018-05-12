@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
 from django.template import loader
 from .OFFData import OFFData
-from .models import Product
+from .models import Product, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import validate_email
+import secrets
 
 
 def index(request):
@@ -38,9 +40,39 @@ def search(request):
 def favorites(request):
     """Return Favorites View"""
     if request.user.is_authenticated:
+        # Create Unique Token for favorites API
+        if not request.user.profile.api_token:
+            request.user.profile.api_token = secrets.token_urlsafe(20)
+            request.user.save()
         return render(request, 'home/favorites.html')
     return render(request, 'home/notlogged.html', status=401)
 
+def favoritesjson(request, token):
+    try:
+        profile = Profile.objects.get(api_token=token)
+        queryset = profile.favorites.all()
+        if not queryset:
+            return JsonResponse({'state': 'success', 'favorites':[]}, status=200)
+
+        favorites = []
+        for favorite in queryset:
+            product = { 'id': favorite.id_off,
+                        'name': favorite.name,
+                        'brands': favorite.brands,
+                        'nutrition_grade': favorite.nutrition_grade,
+                        'saturated_fat': favorite.satured_fat,
+                        'fat': favorite.fat,
+                        'sugar': favorite.sugar,
+                        'salt': favorite.salt,
+                        'categorie': favorite.categorie,
+                        'img_url': favorite.img_url,
+                        'off_url': favorite.url,
+                        'url': request.build_absolute_uri(reverse('home:product', kwargs={'id':favorite.id_off}))
+                    }
+            favorites.append(product)
+        return JsonResponse({'state': 'success', 'favorites':favorites}, status=200)
+    except Profile.DoesNotExist:
+        return JsonResponse({'state': 'error', 'reason': 'Incorrect Token / User Not Found'}, status=400)
 
 def account(request):
     """Return Account View"""
